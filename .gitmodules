@@ -1,0 +1,3 @@
+[submodule "ObSDK"]
+	path = ObSDK
+	url = https://github.com/cnf13/ObSDK

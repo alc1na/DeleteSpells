@@ -1,0 +1,6 @@
+x64/
+vcpkg_installed/
+Nexus/
+DeleteSpells/
+
+*.vcxproj.user

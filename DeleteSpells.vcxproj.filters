@@ -1,0 +1,308 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PluginAPI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="obse64_version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Altar\EVUnpairingState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Altar\ExtraDataList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Altar\IVPairableItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Altar\VAnimationPairingComponentHandlers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\Actor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\ActorValue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\AlchemyItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\ArrowProjectile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\BaseExtraList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\BaseFormComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\BaseProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\BSExtraData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\BSSimpleList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\BSStringT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\Character.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\CombatController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\EffectItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\EffectItemList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\EffectSetting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\EFormFlags.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\EFormID.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\EFormType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\EnchantmentItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\FurnitureMark.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\HighProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\InputState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\Interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\ItemChange.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\ItemEffectPairingData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\LowProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\MagicCaster.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\MagicItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\MagicItemForm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\MagicItemObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\MagicMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\MagicSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\MagicTarget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\Menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\MiddleHighProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\MiddleLowProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\MiscEnums.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\MobileObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\Modifier.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\ModifierList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\PlayerCharacter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\SkillLevel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\SpellItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\TESBoundObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\TESChildCell.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\TESCondition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\TESContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\TESDescription.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\TESForm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\TESFullName.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\TESIcon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\TESMemContextForm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\TESModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\TESObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\TESObjectCELL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\TESObjectREFR.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\TESPackage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\TESScriptableForm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\TESTexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\TESTextureList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\TESWeightForm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\Tile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\Bethesda\TileTemplate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\NetImmerse\NiAVObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\NetImmerse\NiBound.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\NetImmerse\NiMatrix3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\NetImmerse\NiObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\NetImmerse\NiObjectNET.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\NetImmerse\NiPoint3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\NetImmerse\NiPointer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\NetImmerse\NiRefObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\NetImmerse\NiTArray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\NetImmerse\NiTList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\NetImmerse\NiTMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\NetImmerse\NiTMapBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\NetImmerse\NiTPointerMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Types\NetImmerse\NiTransform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Utils\Asserts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Utils\Hooklib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Utils\Memory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Utils\Prefix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Utils\Scanner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObSDK\Utils\Signatures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="vcpkg.json" />
+    <None Include="vcpkg-configuration.json" />
+    <None Include=".gitignore" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="LICENSE.txt" />
+  </ItemGroup>
+</Project>
