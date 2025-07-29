@@ -2,6 +2,12 @@
 #include "pch.h"
 
 #include <Psapi.h>
+#include <thread>
+#include <atomic>
+#include <mutex>
+
+#include <Xinput.h>
+#pragma comment(lib, "Xinput.lib")
 
 #include "obse64_version.h"
 #include "PluginAPI.h"
@@ -17,6 +23,16 @@
 #include "Utils/Hooklib.h"
 #include "Utils/Scanner.h"
 #include "Utils/Signatures.h"
+
+// TODO:
+// - Refactor code organization
+// - InputHandlers.cpp/h for keyboard/gamepad input
+// - Move all config keys and defaults to ConfigKeys.h or Config.cpp
+// - Extract combo check logic into reusable interface
+// - Review GetActiveGamepadState() caching behavior
+// - Add graceful fallback or warning if XInput is not present or fails to load
+// - Add better user feedback in-game if deletion fails
+// - Add better ASI/OBSE path detection and initialization
 
 // Function types
 using FnGetMenuByClass			= Tile * (__fastcall*)(int);
@@ -34,18 +50,83 @@ static FnGetMessageMenuResult	GetMessageMenuresult;
 static FnInterfaceMessageMenu	Interface_CreateMessageMenu;
 static FnMagicMenu_DoClick		og_MagicMenu_DoClick;
 
-// Variables
+// Config flags
 static bool protectSpells = ConfigFile::GetBool("bProtectSpells", true);
 static bool spellInfoLog = ConfigFile::GetBool("bSpellInfoLog", false);
+static bool gamepadSupport = ConfigFile::GetBool("bGamepadSupport", true);
+
+// Keyboard keys
+static int keyboardDeleteKey = ConfigFile::GetInt("iKeyboardDeleteKey", VK_LBUTTON);
+static int keyboardModifierKey = ConfigFile::GetInt("iKeyboardModifierKey", VK_LSHIFT);
+
+// Gamepad buttons
+static int gamepadDeleteButton = ConfigFile::GetInt("iGamepadDeleteButton", 0x1000); // XINPUT_GAMEPAD_A (PSCross, Xbox A)
+static int gamepadModifierButton = ConfigFile::GetInt("iGamepadModifierButton", 0x0020); // XINPUT_GAMEPAD_BACK (PSSelect, Xbox Back)
+
+// Blacklisted FormIDs
 static const auto& ignoredSpells = ConfigFile::GetBlacklistedSpells();
+
+// Returns the state of the active gamepad, or an error code if none is connected
+static DWORD GetActiveGamepadState(XINPUT_STATE& outState) {
+	static int activeGamepad = -1;
+
+	if (!gamepadSupport)
+		return ERROR_DEVICE_NOT_CONNECTED;
+
+	// Try the cached gamepad
+	if (activeGamepad != -1) {
+		DWORD result = XInputGetState(activeGamepad, &outState);
+		if (result == ERROR_SUCCESS)
+			return ERROR_SUCCESS;
+	}
+
+	// Search for a new active gamepad
+	for (int i = 0; i < XUSER_MAX_COUNT; ++i) {
+		if (XInputGetState(i, &outState) == ERROR_SUCCESS) {
+			activeGamepad = i;
+			printf("[Delete Spells] Found active gamepad: %d\n", i);
+			return ERROR_SUCCESS;
+		}
+	}
+
+	activeGamepad = -1;
+	return ERROR_DEVICE_NOT_CONNECTED;
+}
+
+// Check if the gamepad delete combo is currently pressed (modifier + delete)
+static bool IsGamepadDeleteComboPressed() {
+	XINPUT_STATE state{};
+	if (GetActiveGamepadState(state) != ERROR_SUCCESS)
+		return false;
+
+	const WORD buttons = state.Gamepad.wButtons;
+	return (buttons & gamepadModifierButton) && (buttons & gamepadDeleteButton);
+}
+
+// Check if the keyboard delete combo is currently held (modifier + delete)
+static bool IsKeyboardDeleteComboPressed() {
+	return (GetAsyncKeyState(keyboardModifierKey) & 0x8000) &&
+		(GetAsyncKeyState(keyboardDeleteKey) & 0x8000);
+}
 
 // Hooks
 static void hk_MagicMenu_DoClick(MagicMenu* menu, int aiID, Tile* apTarget) {
-	// Skip if confirmation dialog is already open or SHIFT is not held
-	if (GetMenuByClass(1016) || !(GetAsyncKeyState(VK_LSHIFT) & 0x8000)) {
+	// Skip if menu not visible or if confirmation dialog is open
+	if (!menu->IsVisible || GetMenuByClass(1016)) {
 		og_MagicMenu_DoClick(menu, aiID, apTarget);
 		return;
 	}
+
+	// Check if the delete combo is pressed from any input method
+	const bool keyboardCombo = IsKeyboardDeleteComboPressed();
+	const bool gamepadCombo = IsGamepadDeleteComboPressed();
+
+	if (!(keyboardCombo || gamepadCombo)) {
+		og_MagicMenu_DoClick(menu, aiID, apTarget);
+		return;
+	}
+
+	printf("[Delete Spells] Deletion combo confirmed (%s)\n", keyboardCombo ? "Keyboard" : "Gamepad");
 
 	// Check AI ID range
 	if ((aiID - 13) <= 1 || aiID < 1001) {
@@ -81,8 +162,8 @@ static void hk_MagicMenu_DoClick(MagicMenu* menu, int aiID, Tile* apTarget) {
 	}
 
 	// Log spell information if enabled
-	auto& data = curItem->data;
 	if (spellInfoLog) {
+		auto& data = curItem->data;
 		printf("[Delete Spells] FormID: 0x%08X | Type: %d | CostOverride: %d | Flags: 0x%02X\n",
 			curItem->iFormID,
 			data.iSpellType,
@@ -126,6 +207,7 @@ static bool Init() {
 	HookLib::Init();
 	Signatures::Init();
 
+	printf("[Delete Spells] Initializing pointers\n");
 	Scanner::Add("8D 81 ? ? ? ? 83 F8 ? 77 ? 0F B7 05", &GetMenuByClass);
 	Scanner::Add("4C 8B 41 ? 4D 85 C0 74 ? 0F 1F 80 ? ? ? ? 49 8B 48 ? 49 8D 40 ? ? ? ? 0F B7 41 ? 3B C2 74 ? 7F ? 4D 85 C0 75 ? 0F 57 C0", &TileGetFloat);
 	Scanner::Add("48 8B C4 48 89 58 ? 48 89 70 ? 48 89 78 ? 55 41 54 41 55 41 56 41 57 48 8D A8 ? ? ? ? 48 81 EC ? ? ? ? 0F 29 70 ? 0F 29 78 ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 85 ? ? ? ? B9", &MagicMenu_UpdateList);
@@ -133,8 +215,10 @@ static bool Init() {
 	Scanner::Add("40 53 48 83 EC ? B2 ? 33 C9 E8 ? ? ? ? B2", &GetMessageMenuresult);
 	Scanner::AddPrologueHook("48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 57 41 56 41 57 48 83 EC ? 4C 8B F1 4C 89 64 24", hk_MagicMenu_DoClick, &og_MagicMenu_DoClick);
 
+	printf("[Delete Spells] Scanning pointers\n");
 	Scanner::Scan();
-	printf("DeleteSpells loaded!\n");
+
+	printf("[Delete Spells] DeleteSpells loaded!\n");
 
 	return true;
 }

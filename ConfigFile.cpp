@@ -45,9 +45,18 @@ int ConfigFile::GetInt(std::string_view key, int defaultValue)
 	auto it = self.m_Variables.find(std::string(key));
 	if (it == self.m_Variables.end()) return defaultValue;
 
+    std::string val = self.Trim(it->second);
 	int result = 0;
-	std::istringstream iss(it->second);
-	bool parsed = (iss >> result).get();
+
+	std::istringstream iss(val);
+
+	// Check if the value starts with "0x" or "0X" for hex parsing
+	if (val.starts_with("0x") || val.starts_with("0X"))
+		iss >> std::hex >> result;
+	else
+		iss >> result;
+
+	bool parsed = !iss.fail();
 	LogReadResult<int>(std::string(key), parsed ? std::optional(result) : std::nullopt, defaultValue);
 	return parsed ? result : defaultValue;
 }
@@ -167,8 +176,17 @@ bool ConfigFile::GenerateDefault(const string& path)
 	if (!out.is_open()) return false;
 
 	out << "; === ConfigFile ===\n";
-	out << "bProtectSpells = true\n";
-	out << "bSpellInfoLog = false\n";
+	out << "bProtectSpells = true ; If true, spells in the blacklist will not be deleted\n";
+	out << "bSpellInfoLog = false ; If true, spell information will be logged to the console\n";
+	out << "\n";
+	out << "; === Keyboard ===\n";
+	out << "iKeyboardDeleteKey = 0x45 ; Default is VK_E\n";
+	out << "iKeyboardModifierKey = 0xA0 ; Default is VK_LSHIFT\n";
+	out << "\n";
+	out << "; === Gamepad ===\n";
+	out << "bGamepadSupport = true ; If true, allows gamepad combo to trigger deletion\n";
+	out << "iGamepadDeleteButton = 0x1000 ; Default is XINPUT_GAMEPAD_A\n";
+	out << "iGamepadModifierButton = 0x0020 ; Default is XINPUT_GAMEPAD_BACK\n";
 	out << "\n";
 	out << "; === Blacklist ===\n";
 	out << "BlacklistedSpells = {\n";
