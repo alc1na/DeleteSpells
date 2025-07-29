@@ -279,9 +279,10 @@
       <EnableUAC>false</EnableUAC>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)$(Platform)\$(Configuration)\*" "E:\SteamLibrary\steamapps\common\Oblivion Remastered\OblivionRemastered\Binaries\Win64\obse\plugins"
+      <Command>mkdir "$(SolutionDir)Nexus\OBSE\OblivionRemastered\Binaries\Win64\obse\plugins"
 copy "$(SolutionDir)$(Platform)\$(Configuration)\$(ProjectName).dll" "$(SolutionDir)Nexus\OBSE\OblivionRemastered\Binaries\Win64\obse\plugins\$(ProjectName).dll"
-copy "$(SolutionDir)$(Platform)\$(Configuration)\$(ProjectName).pdb" "$(SolutionDir)Nexus\OBSE\OblivionRemastered\Binaries\Win64\obse\plugins\$(ProjectName).pdb"</Command>
+copy "$(SolutionDir)$(Platform)\$(Configuration)\$(ProjectName).pdb" "$(SolutionDir)Nexus\OBSE\OblivionRemastered\Binaries\Win64\obse\plugins\$(ProjectName).pdb"
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release - ASI|x64'">
@@ -307,7 +308,8 @@ copy "$(SolutionDir)$(Platform)\$(Configuration)\$(ProjectName).pdb" "$(Solution
       <EnableUAC>false</EnableUAC>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)$(Platform)\$(Configuration)\$(ProjectName).dll" "$(SolutionDir)Nexus\ASI\OblivionRemastered\Binaries\WinGDK\$(ProjectName).asi"
+      <Command>mkdir "$(SolutionDir)Nexus\ASI\OblivionRemastered\Binaries\WinGDK\"
+copy "$(SolutionDir)$(Platform)\$(Configuration)\$(ProjectName).dll" "$(SolutionDir)Nexus\ASI\OblivionRemastered\Binaries\WinGDK\$(ProjectName).asi"
 copy "$(SolutionDir)$(Platform)\$(Configuration)\$(ProjectName).pdb" "$(SolutionDir)Nexus\ASI\OblivionRemastered\Binaries\WinGDK\$(ProjectName).pdb"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -338,6 +340,7 @@ copy "$(SolutionDir)$(Platform)\$(Configuration)\$(ProjectName).pdb" "$(Solution
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ConfigFile.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="ObSDK\Types\Altar\EVUnpairingState.h" />
     <ClInclude Include="ObSDK\Types\Altar\ExtraDataList.h" />
@@ -431,6 +434,7 @@ copy "$(SolutionDir)$(Platform)\$(Configuration)\$(ProjectName).pdb" "$(Solution
     <ClInclude Include="PluginAPI.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ConfigFile.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
