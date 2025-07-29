@@ -79,7 +79,12 @@ void ConfigFile::InitImpl()
 	if (m_Initialized) return;
 	m_Initialized = true;
 
+#ifdef ASI
+	const string fullPath = GetPluginDirectory() + "\\DeleteSpells.conf";
+#else
 	const string fullPath = GetPluginDirectory() + "\\OBSE\\Plugins\\DeleteSpells.conf";
+#endif
+
 	LoadFromFile(fullPath);
 }
 
