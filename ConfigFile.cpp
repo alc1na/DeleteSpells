@@ -180,7 +180,7 @@ bool ConfigFile::GenerateDefault(const string& path)
 	out << "bSpellInfoLog = false ; If true, spell information will be logged to the console\n";
 	out << "\n";
 	out << "; === Keyboard ===\n";
-	out << "iKeyboardDeleteKey = 0x45 ; Default is VK_E\n";
+	out << "; Valid modifier keys: 0xA0 (VK_LSHIFT), 0xA1 (VK_RSHIFT), 0xA2 (VK_LCONTROL), 0xA3 (VK_RCONTROL), 0xA4 (VK_LMENU), 0xA5 (VK_RMENU)\n";
 	out << "iKeyboardModifierKey = 0xA0 ; Default is VK_LSHIFT\n";
 	out << "\n";
 	out << "; === Gamepad ===\n";

@@ -56,7 +56,6 @@ static bool spellInfoLog = ConfigFile::GetBool("bSpellInfoLog", false);
 static bool gamepadSupport = ConfigFile::GetBool("bGamepadSupport", true);
 
 // Keyboard keys
-static int keyboardDeleteKey = ConfigFile::GetInt("iKeyboardDeleteKey", VK_LBUTTON);
 static int keyboardModifierKey = ConfigFile::GetInt("iKeyboardModifierKey", VK_LSHIFT);
 
 // Gamepad buttons
@@ -69,9 +68,6 @@ static const auto& ignoredSpells = ConfigFile::GetBlacklistedSpells();
 // Returns the state of the active gamepad, or an error code if none is connected
 static DWORD GetActiveGamepadState(XINPUT_STATE& outState) {
 	static int activeGamepad = -1;
-
-	if (!gamepadSupport)
-		return ERROR_DEVICE_NOT_CONNECTED;
 
 	// Try the cached gamepad
 	if (activeGamepad != -1) {
@@ -95,6 +91,9 @@ static DWORD GetActiveGamepadState(XINPUT_STATE& outState) {
 
 // Check if the gamepad delete combo is currently pressed (modifier + delete)
 static bool IsGamepadDeleteComboPressed() {
+	if (!gamepadSupport)
+		return false;
+
 	XINPUT_STATE state{};
 	if (GetActiveGamepadState(state) != ERROR_SUCCESS)
 		return false;
@@ -103,10 +102,52 @@ static bool IsGamepadDeleteComboPressed() {
 	return (buttons & gamepadModifierButton) && (buttons & gamepadDeleteButton);
 }
 
-// Check if the keyboard delete combo is currently held (modifier + delete)
+// List of all known modifier keys (SHIFT, CTRL, ALT, WIN, etc.)
+// TODO: move this to a separate input handler file
+static constexpr int kModifierKeys[] = {
+	VK_SHIFT, VK_LSHIFT, VK_RSHIFT,
+	VK_CONTROL, VK_LCONTROL, VK_RCONTROL,
+	VK_MENU, VK_LMENU, VK_RMENU,
+	VK_LWIN, VK_RWIN, VK_APPS
+};
+
+// Checks if any non-modifier key is currently pressed (excluding mouse buttons)
+// TODO: move this to a separate input handler file
+static bool IsAnyNonModifierKeyHeld() {
+	for (int vk = VK_BACK; vk <= VK_OEM_CLEAR; ++vk) {
+		// Skip if this key is in the modifier list
+		if (std::ranges::any_of(kModifierKeys, [vk](int modKey) { return vk == modKey; }))
+			continue;
+
+		if (GetAsyncKeyState(vk) & 0x8000) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+// Checks if the configured modifier key is currently held
+// TODO: move this to a separate input handler file
+static bool IsModifierKeyHeld() {
+	if (GetAsyncKeyState(keyboardModifierKey) & 0x8000) {
+		return true;
+	}
+
+	return false;
+}
+
+// Checks whether only the modifier key is currently held (no other keys except mouse).
+// We reverted to using mouse click as the trigger (same as the original design), with
+// only the modifier key being customizable. Fully custom hotkey combinations caused too
+// many conflicts with other mods (e.g. Spell Hotkeys) that intercept or override input.
+// Since mouse clicks are processed on release, the hook is triggered after the click —
+// we don't need to detect the mouse itself, only confirm no unrelated keys were held.
+// This safeguards against false triggers (e.g. Shift+3 binding a spell and deleting).
+// In the future, this system should ideally be replaced with a proper UE5 input hook.
+// TODO: move this to a separate input handler file
 static bool IsKeyboardDeleteComboPressed() {
-	return (GetAsyncKeyState(keyboardModifierKey) & 0x8000) &&
-		(GetAsyncKeyState(keyboardDeleteKey) & 0x8000);
+	return IsModifierKeyHeld() && !IsAnyNonModifierKeyHeld();
 }
 
 // Hooks
