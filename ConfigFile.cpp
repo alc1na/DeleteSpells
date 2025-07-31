@@ -177,6 +177,7 @@ bool ConfigFile::GenerateDefault(const string& path)
 
 	out << "; === ConfigFile ===\n";
 	out << "bProtectSpells = true ; If true, spells in the blacklist will not be deleted\n";
+	out << "bUseTranslationFile = true ; If true, uses translated confirmation string from Magic Loader 2 json file, otherwise uses hardcoded English version\n";
 	out << "bSpellInfoLog = false ; If true, spell information will be logged to the console\n";
 	out << "\n";
 	out << "; === Keyboard ===\n";

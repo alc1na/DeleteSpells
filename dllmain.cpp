@@ -52,6 +52,7 @@ static FnMagicMenu_DoClick		og_MagicMenu_DoClick;
 
 // Config flags
 static bool protectSpells = ConfigFile::GetBool("bProtectSpells", true);
+static bool translationFile = ConfigFile::GetBool("bUseTranslationFile", true);
 static bool spellInfoLog = ConfigFile::GetBool("bSpellInfoLog", false);
 static bool gamepadSupport = ConfigFile::GetBool("bGamepadSupport", true);
 
@@ -225,7 +226,7 @@ static void hk_MagicMenu_DoClick(MagicMenu* menu, int aiID, Tile* apTarget) {
 	selectedItem = curItem;
 
 	Interface_CreateMessageMenu(
-		"LOC_HC_DeleteSpell_Confirm",
+		translationFile ? "LOC_HC_DeleteSpell_Confirm" : "Are you sure you want to delete this spell?",
 		[] {
 			if (GetMessageMenuresult() == 1) {
 				PlayerCharacter::GetSingleton()->RemoveSpell(selectedItem);
